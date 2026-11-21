@@ -37,7 +37,7 @@ All endpoints require the Madara API key.
 | POST | `/api/5group` | Create a squad with leaderUid, name, and optional members array (up to four) |
 | GET | `/api/5group?id=GROUP_UUID` | Read squad and members |
 | POST | `/api/5group` | Join an open squad using groupId and uid |
-| POST | `/api/guild` | Create a Madara community guild |
+| POST | `/api/guild` | Create a Madara community guild or join with guildId + uid |
 | GET | `/api/guild?guildId=GUILD_UUID` | Read a Madara guild |
 | POST | `/api/6group` | Returns 410; squads are limited to five players |
 | POST | `/api/emote` | Returns 501; no in-game emote action is performed |
