@@ -5,8 +5,8 @@ import { json, requireAuth, validateRegion, validateUid } from "@/lib/http";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-type PlayerRow = { uid: string; nickname: string; region: string; notes: string | null; created_at: string; updated_at: string };
-type GroupRow = { id: string; name: string; leader_uid: string; status: string; created_at: string };
+type PlayerRow = { [key: string]: unknown; uid: string; nickname: string; region: string; notes: string | null; created_at: string; updated_at: string };
+type GroupRow = { [key: string]: unknown; id: string; name: string; leader_uid: string; status: string; created_at: string };
 
 async function readBody(req: NextRequest): Promise<Record<string, unknown> | null> {
   try {
