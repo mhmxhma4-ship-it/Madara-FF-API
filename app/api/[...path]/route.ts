@@ -113,6 +113,16 @@ async function handlePost(req: NextRequest, endpoint: string) {
     return json({ ok: true, message: "Friend link saved in Madara." }, 201);
   }
 
+  if (endpoint === "guild" && typeof body.guildId === "string") {
+    const guildId = body.guildId;
+    const uid = validateUid(typeof body.uid === "string" ? body.uid : null);
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(guildId) || !uid) {
+      return json({ ok: false, error: "INVALID_GUILD_MEMBERSHIP" }, 400);
+    }
+    await query("INSERT INTO madara_guild_members(guild_id,uid,role) VALUES($1,$2,'member')", [guildId, uid]);
+    return json({ ok: true, message: "Player joined the Madara guild." }, 201);
+  }
+
   if (endpoint === "guild") {
     const ownerUid = validateUid(typeof body.ownerUid === "string" ? body.ownerUid : null);
     const name = body.name;
