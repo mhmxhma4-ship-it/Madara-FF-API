@@ -8,7 +8,7 @@ const routes = [
   ["POST", "/api/5group", "Create a squad of up to five players"],
   ["GET", "/api/5group?id=GROUP_ID", "Read a squad and its members"],
   ["POST", "/api/5group", "Join a squad using groupId + uid"],
-  ["POST", "/api/guild", "Create a Madara community guild"],
+  ["POST", "/api/guild", "Create or join a Madara community guild"],
   ["GET", "/api/guild?guildId=GUILD_ID", "Read a Madara community guild"]
 ];
 
