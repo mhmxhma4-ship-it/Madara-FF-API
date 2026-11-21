@@ -1,5 +1,4 @@
 import { NextRequest } from "next/server";
-import { randomUUID } from "node:crypto";
 import { query, transaction } from "@/lib/db";
 import { json, requireAuth, validateRegion, validateUid } from "@/lib/http";
 
