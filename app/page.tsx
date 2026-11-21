@@ -1,30 +1,37 @@
 const routes = [
-  ["GET", "/api/health"], ["GET", "/api/player?uid=123456789&region=EU"],
-  ["GET", "/api/stats?uid=123456789&region=EU"], ["GET", "/api/friends?uid=123456789&region=EU"],
-  ["GET", "/api/guild?uid=123456789&region=EU"], ["POST", "/api/5group"],
-  ["POST", "/api/6group"], ["POST", "/api/emote"]
+  ["GET", "/api/health", "Service + database status"],
+  ["POST", "/api/player", "Register or update a Madara player"],
+  ["GET", "/api/player?uid=123456789", "Read a registered player"],
+  ["GET", "/api/stats?uid=123456789", "Madara platform activity stats"],
+  ["GET", "/api/friends?uid=123456789", "List saved Madara contacts"],
+  ["POST", "/api/friends", "Save a contact between registered UIDs"],
+  ["POST", "/api/5group", "Create a squad of up to five players"],
+  ["GET", "/api/5group?id=GROUP_ID", "Read a squad and its members"],
+  ["POST", "/api/5group", "Join a squad using groupId + uid"],
+  ["POST", "/api/guild", "Create a Madara community guild"],
+  ["GET", "/api/guild?guildId=GUILD_ID", "Read a Madara community guild"]
 ];
 
 export default function Home() {
   return <main className="shell">
-    <div className="eyebrow">Private API Gateway · EU</div>
+    <div className="eyebrow">Private API · EU Region</div>
     <section className="hero">
-      <span className="status">PRIVATE ACCESS</span>
+      <span className="status">MADARA OWNED BACKEND</span>
       <h1>MADARA <span>FF</span> API</h1>
-      <p className="lead">A private, authenticated API gateway for Free Fire-related integrations. Built with Next.js and ready for deployment on Vercel.</p>
+      <p className="lead">A private player registry, squad manager, contacts and community-guild API. Data is stored in your own PostgreSQL database. No paid Free Fire data provider is required.</p>
     </section>
     <section className="panel">
       <h2>Available endpoints</h2>
-      <div className="routes">{routes.map(([method, path]) => <div className="route" key={path}><span className="method">{method}</span>{path}</div>)}</div>
+      <div className="routes">{routes.map(([method, path, description], i) => <div className="route" key={i}><div><span className="method">{method}</span>{path}</div><small>{description}</small></div>)}</div>
     </section>
     <section className="panel">
       <h2>Authentication</h2>
-      <p className="note">Send your private key using the <code>x-api-key</code> header or an Authorization Bearer token. Keep the key in a server-side environment variable named <code>MADARA_API_KEY</code>. Never place it in browser code or publish it in a repository.</p>
+      <p className="note">Every API route requires the private key in the <code>x-api-key</code> header or an Authorization Bearer token. Configure <code>MADARA_API_KEY</code> and <code>DATABASE_URL</code> as server environment variables. Never expose either secret in browser code or GitHub.</p>
     </section>
     <section className="panel">
-      <h2>Integration status</h2>
-      <p className="note">The gateway and request validation are implemented. Game actions and player data require a verified, authorized provider integration. Until one is configured, those endpoints return a clear 503 response instead of fabricated results.</p>
+      <h2>Important limitation</h2>
+      <p className="note">Player profiles, friend links, guilds, squads and activity counters in this version are Madara database records. They are not read from or written into Free Fire. Official in-game stats, friend lists, party invites and emotes require a documented and authorized Garena interface.</p>
     </section>
-    <p className="foot">Madara FF API · Private project · Not affiliated with Garena</p>
+    <p className="foot">Madara FF API · Private project · Independent tool, not affiliated with Garena</p>
   </main>;
 }
