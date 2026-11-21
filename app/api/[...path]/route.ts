@@ -25,7 +25,7 @@ function dbError(error: unknown) {
   const code = (error as { code?: string })?.code;
   if (code === "23503") return json({ ok: false, error: "PLAYER_NOT_FOUND", message: "Register every UID before using it." }, 404);
   if (code === "23505") return json({ ok: false, error: "ALREADY_EXISTS" }, 409);
-  if (code === "DATABASE_NOT_CONFIGURED") return json({ ok: false, error: "DATABASE_NOT_CONFIGURED", message: "Set DATABASE_URL in Vercel Environment Variables." }, 503);
+  if (code === "DATABASE_NOT_CONFIGURED" || (error instanceof Error && error.message === "DATABASE_NOT_CONFIGURED")) return json({ ok: false, error: "DATABASE_NOT_CONFIGURED", message: "Set DATABASE_URL in Vercel Environment Variables." }, 503);
   return json({ ok: false, error: "DATABASE_ERROR", message: "The Madara database request failed." }, 500);
 }
 
