@@ -22,6 +22,12 @@ Set these in Vercel → Project → Settings → Environment Variables:
 
 No provider key or paid Free Fire API is needed. The repository does not contain real secrets.
 
+## Web dashboard
+
+Open `/dashboard` after deployment. Sign in with the same `MADARA_API_KEY` configured in Vercel. The browser receives a signed, HttpOnly, SameSite=Strict session cookie; the API key itself is not stored in browser storage. Sessions expire after 12 hours. The dashboard can register player UIDs and create/read Madara database squads of exactly five registered players.
+
+The dashboard does not create an in-game Free Fire lobby or send party invitations. It is a management panel for Madara-owned records only.
+
 ## Endpoints
 
 All endpoints require the Madara API key.
