@@ -119,6 +119,8 @@ async function handlePost(req: NextRequest, endpoint: string) {
     if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(guildId) || !uid) {
       return json({ ok: false, error: "INVALID_GUILD_MEMBERSHIP" }, 400);
     }
+    const exists = await query("SELECT id FROM madara_guilds WHERE id=$1", [guildId]);
+    if (!exists.rowCount) return json({ ok: false, error: "GUILD_NOT_FOUND" }, 404);
     await query("INSERT INTO madara_guild_members(guild_id,uid,role) VALUES($1,$2,'member')", [guildId, uid]);
     return json({ ok: true, message: "Player joined the Madara guild." }, 201);
   }
