@@ -61,7 +61,7 @@ async function handleGet(req: NextRequest, endpoint: string) {
 
   if (endpoint === "guild") {
     const guildId = req.nextUrl.searchParams.get("guildId");
-    if (!guildId) return json({ ok: false, error: "INVALID_GUILD_ID" }, 400);
+    if (!guildId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(guildId)) return json({ ok: false, error: "INVALID_GUILD_ID" }, 400);
     const result = await query(
       `SELECT g.id,g.name,g.tag,g.owner_uid,g.created_at,
         COALESCE(json_agg(json_build_object('uid',p.uid,'nickname',p.nickname,'role',m.role))
@@ -74,7 +74,7 @@ async function handleGet(req: NextRequest, endpoint: string) {
 
   if (endpoint === "5group") {
     const groupId = req.nextUrl.searchParams.get("id");
-    if (!groupId) return json({ ok: false, error: "GROUP_ID_REQUIRED" }, 400);
+    if (!groupId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(groupId)) return json({ ok: false, error: "GROUP_ID_REQUIRED" }, 400);
     const result = await query(
       `SELECT g.id,g.name,g.leader_uid,g.status,g.created_at,
         COALESCE(json_agg(json_build_object('uid',p.uid,'nickname',p.nickname,'role',m.role))
@@ -131,7 +131,8 @@ async function handlePost(req: NextRequest, endpoint: string) {
   }
 
   if (endpoint === "5group") {
-    const groupId = typeof body.groupId === "string" ? body.groupId : null;
+    const groupId = typeof body.groupId === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(body.groupId) ? body.groupId : null;
+    if (body.groupId !== undefined && !groupId) return json({ ok: false, error: "INVALID_GROUP_ID" }, 400);
     const uid = validateUid(typeof body.uid === "string" ? body.uid : null);
     if (groupId) {
       if (!uid) return json({ ok: false, error: "INVALID_UID" }, 400);
